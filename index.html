@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Derek Nakamura</title>
+		<title>Derek Nakamura - Game Developer</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -83,15 +83,18 @@
 										<iframe class="image fit" height="250" src="https://www.youtube.com/embed/5ez1GU8JZ1Y" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 										<header>
 											<h2>The Labyrinth</h2>
-											<ul></ul>
+											<ul style="font-size: 17px">Used Unreal Engine 4 to develop a virtual reality puzzle game compatible with the Oculus Rift</ul>
+											<ul style="font-size: 17px">Designed levels for challenging users’ spatial awareness and critical thinking in a 3-dimensional space</ul>
+											<ul style="font-size: 17px">Collaborated with two developers. Check out their levels:</ul>
+											<ul><a href="https://www.youtube.com/watch?v=S-eVMUVNJDA&feature=youtu.be" style="font-size: 17px">Level 1 Demo</a></ul>
+											<ul><a href="https://www.youtube.com/watch?v=zbsCNzAn2Nk&feature=youtu.be" style="font-size: 17px">Level 3 Demo</a></ul>
 										</header>
 									</article>
 									<article class="item">
-										<iframe class="image fit" height="250" src="https://www.youtube.com/embed/bdHq98S1lyg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+										<canvas id="gameCanvas" class="image fit" height="250"></canvas>
 										<header>
-											<h2>MC Escher Chess Set</h2>
-											<ul>Modeled a chessboard and chess set inspired by the works of M.C. Escher</ul>
-											<ul>Animated chess pieces to move in unique ways</ul>
+											<h2>Pong in JavaScript</h2>
+											<ul><a href="https://github.com/dereknakamura/Pong" style="font-size: 17px">Check out the code here</a></ul>
 										</header>
 									</article>
 								</div>
@@ -100,29 +103,36 @@
 										<iframe class="image fit" height="250" src="https://www.youtube.com/embed/_a7IGOiBOJ0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 										<header>
 											<h2>Still Life with a Twist</h2>
-											<ul>Recreated a 2D still life painting as a 3D model using Maya</ul>
-											<ul>Objects were textured and mapped using Photoshop to make models look realistic</ul>
-											<ul>Still life animated with a fun twist</ul>
+											<ul style="font-size: 17px">Recreated a 2D still life painting as a 3D model using Maya</ul>
+											<ul style="font-size: 17px">Objects were textured and mapped using Photoshop to make models look realistic</ul>
+											<ul style="font-size: 17px">Still life animated with a fun twist</ul>
 										</header>
 									</article>
 									<article class="item">
-										<a href="#" class="image fit"><img src="images/pic05.jpg" alt="" /></a>
+										<iframe class="image fit" height="250" src="https://www.youtube.com/embed/cUtNct9TFVU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 										<header>
-											<h3>Snake in C++</h3>
+											<h2>Snake in C++</h2>
+											<ul><a href="https://github.com/dereknakamura/Snake" style="font-size: 17px">Check out the code here</a></ul>
 										</header>
 									</article>
 								</div>
 								<div class="col-4 col-12-mobile">
 									<article class="item">
-										<a href="#" class="image fit"><img src="images/pic06.jpg" alt="" /></a>
+										<iframe class="image fit" height="250" src="https://www.youtube.com/embed/bdHq98S1lyg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 										<header>
-											<h3>Pong in JavaScript</h3>
+											<h2>MC Escher Chess Set</h2>
+											<ul style="font-size: 17px">Modeled a chess board and chess set inspired by the works of M.C. Escher</ul>
+											<ul style="font-size: 17px">Animated chess pieces to move in unique ways</ul>
 										</header>
 									</article>
 									<article class="item">
-										<a href="#" class="image fit"><img src="images/pic07.jpg" alt="" /></a>
+										<img src="images/TTT/1.png" class="image fit"/>
+										<img src="images/TTT/2.png" class="image fit"/>
+										<img src="images/TTT/3.png" class="image fit"/>
+										<img src="images/TTT/4.png" class="image fit"/>
 										<header>
-											<h3>Tic Tac Toe in C++</h3>
+											<h2>Tic Tac Toe in C++</h2>
+											<ul><a href="https://github.com/dereknakamura/TicTacToe" style="font-size: 17px">Check out the code here</a></ul>
 										</header>
 									</article>
 								</div>
@@ -166,6 +176,164 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+
+			<script>
+				var canvas;
+				var canvasContext;
+				var ballX = 50;
+				var ballY = 50;
+				var ballSpeedX = 10;
+				var ballSpeedY = 4;
+
+				var player1Score = 0;
+				var player2Score = 0;
+				const WINNING_SCORE = 5;
+
+				var winScreen = false;
+
+				const PADDLE_HEIGHT = 100;
+				const PADDLE_THICKNESS = 10;
+				var paddle1Y = 100;
+				var paddle2Y = 100;
+
+				function handleMouseClick(evt) {
+					if(winScreen) {
+						player1Score = 0;
+						player2Score = 0;
+						winScreen = false;
+					}
+				}
+
+				window.onload = function() {
+					canvas = document.getElementById('gameCanvas');
+					canvasContext = canvas.getContext('2d');
+
+					var framesPerSecond = 30;
+					setInterval(function() {
+						move();
+						draw();
+					}, 1000/framesPerSecond);
+
+					canvas.addEventListener('mousedown', handleMouseClick);
+				}
+
+				function ballReset() {
+					if(player1Score >= WINNING_SCORE || player2Score >= WINNING_SCORE) {
+						winScreen = true;
+					}
+					ballSpeedX = -ballSpeedX;
+					ballX = canvas.width/2;
+					ballY = canvas.height/2;
+				}
+
+				function computerMove() {
+					var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);
+					var paddle1YCenter = paddle1Y + (PADDLE_HEIGHT/2);
+					if(paddle2YCenter < ballY-35  && ballX > ((canvas.width/2) + 50)) {
+						paddle2Y += 8;
+					}
+					else if(paddle2YCenter > ballY+35  && ballX > ((canvas.width/2) + 50)) {
+						paddle2Y -= 8;
+					}
+					if(paddle1YCenter < ballY-25 && ballX < ((canvas.width/2) + 50)) {
+						paddle1Y += 7;
+					}
+					else if(paddle1YCenter > ballY+25 && ballX < ((canvas.width/2) + 50)) {
+						paddle1Y -= 7;
+					}
+				}
+
+				function  move() {
+					if(winScreen) {
+						return;
+					}
+					computerMove();
+
+					ballX += ballSpeedX;
+					ballY += ballSpeedY;
+
+					if(ballX > canvas.width) {
+						if(ballY > paddle2Y && ballY < paddle2Y+PADDLE_HEIGHT) {
+							ballSpeedX = -ballSpeedX;
+
+							var deltaY = ballY - (paddle2Y+PADDLE_HEIGHT/2);
+							ballSpeedY = deltaY * .25;
+						}
+						else {
+							player1Score++;
+							ballReset();
+						}
+					}
+					if(ballX < 0) {
+						if(ballY > paddle1Y && ballY < paddle1Y+PADDLE_HEIGHT) {
+							ballSpeedX = -ballSpeedX;
+
+							var deltaY = ballY - (paddle1Y+PADDLE_HEIGHT/2);
+							ballSpeedY = deltaY * .25;
+						}
+						else {
+							player2Score++;
+							ballReset();
+						}
+					}
+					if(ballY > canvas.height) {
+						ballSpeedY = -ballSpeedY;
+					}
+					if(ballY < 0) {
+						ballSpeedY = -ballSpeedY;
+					}
+				}
+
+				function drawNet() {
+					for (var i=0; i<canvas.height; i+=40) {
+						colorRect(canvas.width/2-1, i, 2, 20, 'white');
+					}
+				}
+
+				function draw() {
+					//screen
+					colorRect(0, 0, canvas.width, canvas.height, 'black');
+
+					if(winScreen) {
+						canvasContext.fillStyle = 'white';
+						if(player1Score >= WINNING_SCORE) {
+							canvasContext.fillText("Left Player Wins!", (canvas.width/2)-(canvas.width/10), canvas.height-(canvas.height/2));
+						}
+						else if(player2Score >= WINNING_SCORE) {
+							canvasContext.fillText("Right Player Wins!", (canvas.width/2)-(canvas.width/10), canvas.height-(canvas.height/2));
+						}
+						canvasContext.fillText("Click to Play Again", (canvas.width/2)-(canvas.width/10), canvas.height-(canvas.height/10));
+						return;
+					}
+
+					drawNet();
+					
+					//left player
+					colorRect(0, paddle1Y, PADDLE_THICKNESS, PADDLE_HEIGHT, 'white');
+
+					//right paddle computer
+					colorRect(canvas.width - PADDLE_THICKNESS, paddle2Y, PADDLE_THICKNESS, PADDLE_HEIGHT,'white');
+
+					//ball
+					colorCircle(ballX, ballY, 10, 'white');
+
+					//score
+					canvasContext.fillText(player1Score, 100, 100);
+					canvasContext.fillText(player2Score, canvas.width - 100, 100);
+				}
+
+				function colorRect(leftX, topY, width, height, drawColor) {
+					canvasContext.fillStyle = drawColor;
+					canvasContext.fillRect(leftX, topY, width, height);
+				}
+
+				function colorCircle(centerX, centerY, radius, drawColor) {
+					canvasContext.fillStyle = drawColor;
+					canvasContext.beginPath();
+					canvasContext.arc(centerX, centerY, radius, 0, Math.PI*2, true);
+					canvasContext.fill();
+				}
+			</script>
 
 
 	</body>

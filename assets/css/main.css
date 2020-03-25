@@ -1815,7 +1815,8 @@ input, select, textarea {
 
 	ul {
 		list-style: disc;
-		padding-left: 1em;
+		padding-left: .5em;
+		margin: .5em;
 	}
 
 		ul li {
