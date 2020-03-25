@@ -75,7 +75,7 @@
 								<h2>Portfolio</h2>
 							</header>
 
-							<p>Here's a collection of different projects that I've produced. I have made a number of game-related projects ranging from a VR game, animated 3D models, and recreations of classic games.</p>
+							<p>Here's a collection of different projects that I've built. This portfolio contains various game-related projects ranging from a VR game, animated 3D models, and recreations of classic games.</p>
 							
 							<div class="row">
 								<div class="col-4 col-12-mobile">
@@ -105,7 +105,7 @@
 											<h2>Still Life with a Twist</h2>
 											<ul style="font-size: 17px">Recreated a 2D still life painting as a 3D model using Maya</ul>
 											<ul style="font-size: 17px">Objects were textured and mapped using Photoshop to make models look realistic</ul>
-											<ul style="font-size: 17px">Still life animated with a fun twist</ul>
+											<ul style="font-size: 17px">Animated the "still life" with a fun twist</ul>
 										</header>
 									</article>
 									<article class="item">
@@ -149,7 +149,7 @@
 								<h2>About Me</h2>
 							</header>
 
-							<p>I've always had a passion for video games since I was a child. This passion drives my work as a programmer. Besides video games, I am also passionate about cooking.</p>
+							<p>I've always had a passion for video games since I was a child. This passion drives my work as a programmer. When I'm not in front of a computer, I'm in the kitchen experimenting with different recipes. I'm most proud of my pickling recipes. I am constantly modifying different ratios of spices to make the best jar of pickles, and the best jar of kimchi.</p>
 						</div>
 					</section>
 
@@ -191,10 +191,10 @@
 
 				var winScreen = false;
 
-				const PADDLE_HEIGHT = 100;
+				const PADDLE_HEIGHT = 75;
 				const PADDLE_THICKNESS = 10;
-				var paddle1Y = 100;
-				var paddle2Y = 100;
+				var paddle1Y = 75;
+				var paddle2Y = 75;
 
 				function handleMouseClick(evt) {
 					if(winScreen) {
@@ -230,16 +230,16 @@
 					var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);
 					var paddle1YCenter = paddle1Y + (PADDLE_HEIGHT/2);
 					if(paddle2YCenter < ballY-35  && ballX > ((canvas.width/2) + 50)) {
-						paddle2Y += 8;
+						paddle2Y += 9;
 					}
 					else if(paddle2YCenter > ballY+35  && ballX > ((canvas.width/2) + 50)) {
-						paddle2Y -= 8;
+						paddle2Y -= 9;
 					}
 					if(paddle1YCenter < ballY-25 && ballX < ((canvas.width/2) + 50)) {
-						paddle1Y += 7;
+						paddle1Y += 8;
 					}
 					else if(paddle1YCenter > ballY+25 && ballX < ((canvas.width/2) + 50)) {
-						paddle1Y -= 7;
+						paddle1Y -= 8;
 					}
 				}
 
